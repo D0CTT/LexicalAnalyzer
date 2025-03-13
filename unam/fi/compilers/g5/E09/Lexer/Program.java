@@ -1,13 +1,12 @@
 package unam.fi.compilers.g5.E09.Lexer;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
 
 /**
  * The Program class serves as the entry point for running the lexer.
