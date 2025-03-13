@@ -1,4 +1,4 @@
-package unam.fi.compilers.g5.09.Lexer;
+package unam.fi.compilers.g5.E09.Lexer;
 /**
  * The Token class represents a lexical token, storing its type and value.
  */
