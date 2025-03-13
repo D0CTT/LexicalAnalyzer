@@ -1,23 +1,34 @@
 package unam.fi.compilers.g5.E09.Lexer;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
 
 /**
  * The Program class serves as the entry point for running the lexer.
- * It initializes a source code string, processes it using the Lexer,
+ * It initializes a source code file, processes it using the Lexer,
  * and then prints the detected tokens along with their counts.
  */
 public class Program {
     public static void main(String[] args) {
-        /**
-         * Sample C-like code to be analyzed.
-         */
-        String code = "int main() {\r\n" +
-                        "    int x, a = 2, b = 3, c = 5;\r\n" +
-                        "    x = a + b * c;\r\n" +
-                        "    printf(\"The value of x is %d\", x);\r\n" +
-                        "    return 0;\r\n" +
-                        "}";
+        String filePath = selectFile();
+        if (filePath == null) {
+            System.out.println("No file selected. Exiting...");
+            return;
+        }
+        
+        String code = "";
+        try {
+            code = new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+            return;
+        }
 
         // Create a Lexer instance with the input code
         Lexer lexer = new Lexer(code);
@@ -33,5 +44,22 @@ public class Program {
          * Also prints the total number of tokens found.
          */
         lexer.printTokens(tokenMap);
+    }
+
+    /**
+     * Opens a file chooser dialog for the user to select a file.
+     * @return the absolute path of the selected file, or null if no file was selected.
+     */
+    private static String selectFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select a source code file");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Text Files", "txt", "c", "java", "cpp"));
+        int userSelection = fileChooser.showOpenDialog(null);
+        
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            return file.getAbsolutePath();
+        }
+        return null;
     }
 }
